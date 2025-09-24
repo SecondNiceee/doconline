@@ -1,10 +1,13 @@
 import type React from "react"
 import type { Metadata } from "next"
+import { baseUrl } from "../constants/baseUrl"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { Suspense } from "react"
+
+const SITE_URL = baseUrl.replace(/\/$/, "")
 
 export const metadata: Metadata = {
   title: "@Doconline24_bot - Профессиональный генератор документов | Создание документов онлайн",
@@ -35,7 +38,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://doconlinebotlanding.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: "/",
   },
@@ -43,13 +46,13 @@ export const metadata: Metadata = {
     title: "@Doconline24_bot - Профессиональный генератор документов",
     description:
       "Создавайте юридические документы, договоры, заявления за 3-5 минут через Telegram бота. Актуальные шаблоны, форматы PDF и Word.",
-    url: "https://doconlinebotlanding.vercel.app",
+    url: SITE_URL,
     siteName: "@Doconline24_bot",
     locale: "ru_RU",
     type: "website",
     images: [
       {
-        url: "https://doconlinebotlanding.vercel.app/images/og-image.jpg",
+        url: `${SITE_URL}/images/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: "Профессиональный генератор документов @Doconline24_bot - создание документов через Telegram",
@@ -60,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "@Doconline24_bot - Генератор документов",
     description: "Создавайте документы за 3-5 минут через Telegram бота. Актуальные шаблоны, PDF и Word форматы.",
-    images: ["https://doconlinebotlanding.vercel.app/images/og-image.jpg"],
+    images: [`${SITE_URL}/images/og-image.jpg`],
   },
   robots: {
     index: true,
