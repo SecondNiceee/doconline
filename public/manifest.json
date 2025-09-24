@@ -1,0 +1,16 @@
+{
+  "name": "@Doconline24_bot - Генератор документов",
+  "short_name": "Doconline24",
+  "description": "Профессиональный генератор документов через Telegram бота",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e293b",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}
