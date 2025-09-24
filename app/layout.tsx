@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "https://doconlinebotlanding.vercel.app/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Профессиональный генератор документов @Doconline24_bot - создание документов через Telegram",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "@Doconline24_bot - Генератор документов",
     description: "Создавайте документы за 3-5 минут через Telegram бота. Актуальные шаблоны, PDF и Word форматы.",
-    images: ["/images/og-image.jpg"],
+    images: ["https://doconlinebotlanding.vercel.app/images/og-image.jpg"],
   },
   robots: {
     index: true,
@@ -122,6 +122,13 @@ export default function RootLayout({
             }),
           }}
         />
+        <meta property="og:title" content="@Doconline24_bot - Профессиональный генератор документов" />
+        <meta property="og:description" content="Создавайте юридические документы, договоры, заявления за 3-5 минут через Telegram бота. Актуальные шаблоны, форматы PDF и Word." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://doconlinebotlanding.vercel.app" />
+        <meta property="og:image" content="https://doconlinebotlanding.vercel.app/images/og-image.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="theme-color" content="#3b82f6" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
