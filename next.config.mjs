@@ -1,63 +1,76 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export",
+
+  // Отключаем только если уверены — лучше чинить ошибки
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // ⚠️ временно, для CI лучше включить
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, // ⚠️ то же самое
   },
+
   experimental: {
     optimizePackageImports: [
-      'lucide-react', 
+      'lucide-react',
       'class-variance-authority',
       'clsx',
       'tailwind-merge'
     ],
-    cssChunking: "loose", // ✅ оставляем — объединяет CSS
+    // "loose" — ок для лендинга (1–2 CSS-файла)
+    cssChunking: false,
   },
+
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
+      // Убираем nodemailer из клиента (если используется только на сервере)
       config.externals = {
         ...config.externals,
-        'nodemailer': 'nodemailer'
+        'nodemailer': 'nodemailer',
       };
 
-      // 🎯 МИНИМИЗИРУЕМ ЧАНКИ → 1 ИЛИ 2 ФАЙЛА МАКСИМУМ
+      // 🔥 КЛЮЧЕВОЕ: НЕ объединяем всё в один чанк!
+      // Сохраняем код-сплиттинг для dynamic-секций
       config.optimization = {
         ...config.optimization,
-        runtimeChunk: false, // ← объединяем runtime с основным чанком
+        runtimeChunk: 'single', // ← выносим runtime в отдельный маленький файл
         splitChunks: {
           chunks: 'all',
-          maxInitialRequests: 1,   // ← только 1 initial чанк
-          maxAsyncRequests: 1,     // ← только 1 асинхронный чанк
-          minSize: 0,              // ← объединяем даже мелкие модули
           cacheGroups: {
-            default: false,        // ← отключаем дефолтные группы
-            vendors: false,        // ← отключаем vendors
-            // Создаём одну группу — всё в один файл
-            all: {
-              test: /.*/,
-              name: 'bundle',
+            // Группа для node_modules — редко меняется → лучше кэшируется
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
               chunks: 'all',
-              enforce: true,       // ← принудительно объединяем всё
+              priority: 10,
+            },
+            // Остальное (твой код) — в main или по dynamic-чанкам
+            default: {
+              minChunks: 2,
+              priority: -10,
+              reuseExistingChunk: true,
             },
           },
         },
         minimize: true,
-        concatenateModules: true, // ← объединяем модули на уровне scope
+        concatenateModules: true,
       };
     }
     return config;
   },
+
+  // Эти настройки не влияют при output: "export", но оставим
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
-  swcMinify: true,
-  reactStrictMode: false,
+
+  // Для лендинга — можно включить Strict Mode (не влияет на прод)
+  reactStrictMode: true,
+
   images: {
-    unoptimized: true,
+    unoptimized: true, // обязательно при export
   },
+
   trailingSlash: true,
   skipTrailingSlashRedirect: true,
 };

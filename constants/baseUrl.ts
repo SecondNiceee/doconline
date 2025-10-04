@@ -1,1 +1,1 @@
-export const baseUrl = "https://doconline-smoky.vercel.app/";
+export const baseUrl = "https://doconline24.ru/";
